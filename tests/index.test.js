@@ -2,6 +2,8 @@ const chai = require('chai')
 const chaiHttp = require('chai-http')
 chai.use(chaiHttp)
 
+const Users = require('../src/models/users')
+
 const server = require('../src')
 // We are going to store the JWT in this variable to easily pass it to routes that need it
 // Login should be done with a Authorization header like "Bearer eyJhbGcioi..."
@@ -17,6 +19,10 @@ describe('NodeJS Tests', () => {
 
       expect(res.status).toEqual(200)
       expect(res.body.data).toBeDefined()
+      expect(res.body.data.email).toBeDefined()
+      expect(res.body.data.firstName).toBeDefined()
+      expect(res.body.data.lastName).toBeDefined()
+      expect(res.body.data.password).not.toBeDefined()
     })
     test('Should fail because email already exists (400)', async () => {
       const res = await chai
@@ -36,6 +42,7 @@ describe('NodeJS Tests', () => {
       expect(res.status).toEqual(200)
       expect(res.body.data).toBeDefined()
     })
+    //Users.destroy({ truncate : true, cascade: false }) ## This is to use on a test database to get fresh after each test
   })
 
   describe('POST /login', () => {
