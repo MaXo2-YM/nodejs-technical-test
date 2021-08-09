@@ -42,10 +42,18 @@ describe('NodeJS Tests', () => {
       expect(res.status).toEqual(200)
       expect(res.body.data).toBeDefined()
     })
-    //Users.destroy({ truncate : true, cascade: false }) ## This is to use on a test database to get fresh after each test
   })
 
   describe('POST /login', () => {
+    test('Should fail login (401)', async () => {
+      const res = await chai
+        .request(server)
+        .post('/login')
+        .send({ email: 'wrong@mail.com', password: 'wr0ngpass!'})
+
+      expect(res.status).toEqual(401)
+      expect(res.body.error).toBeDefined()
+    })
     test('Should fail login (401)', async () => {
       const res = await chai
         .request(server)
@@ -189,4 +197,5 @@ describe('NodeJS Tests', () => {
       })
     })
   })
+  Users.destroy({ truncate : true, cascade: false }) //## This is to use on a test database to get fresh after each test
 })
