@@ -1,4 +1,3 @@
-const sequelize = require('../database')
 const Users = require('../models/users')
 
 postSubscribe = async (req,res) => {
