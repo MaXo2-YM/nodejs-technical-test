@@ -71,6 +71,7 @@ describe('NodeJS Tests', () => {
 
       expect(res.status).toEqual(200)
       expect(res.body.data).toBeDefined()
+      expect(res.body.data.authJWT).toBeDefined()
       authJWT = res.body.data.authJWT
     })
   })
