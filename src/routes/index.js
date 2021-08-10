@@ -1,6 +1,7 @@
 const routesToSubscribe = require('./subscribe')
 const routesToLogin = require('./login')
 const routesToUsers = require('./users')
+const routesToGroups = require('./groups')
 
 const routes = async (req,res) => {
   switch(req.url) {
@@ -12,6 +13,9 @@ const routes = async (req,res) => {
     break;
     case '/users':
       routesToUsers(req,res)
+    break;
+    case '/groups':
+      routesToGroups(req,res)
     break;
     default:
       res.writeHead(404, { 'Content-Type': 'application/json' })
