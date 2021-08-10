@@ -1,10 +1,8 @@
-const jwt = require('jsonwebtoken')
 const {Op} = require("sequelize");
-const {secret} = require('../config')
 const Users = require('../models/users')
 const verifyToken = require('../authJWT')
 
-getUsers = async (req,res) => {
+const getUsers = async (req,res) => {
   if(verifyToken(req)) {
     const users = await Users.findAll({
       where: {
