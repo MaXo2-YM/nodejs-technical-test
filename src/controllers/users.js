@@ -14,7 +14,7 @@ const createUser = async (req,res) => {
     res.status(200).json({'data': returnValues})
   
     } catch (error) {
-      res.status(400).end({'error': error})
+      res.status(400).json({'error': error})
     }
 }
 
