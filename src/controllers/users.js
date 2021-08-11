@@ -44,4 +44,12 @@ const getUserFromMail = async (mail) => {
   })
 }
 
-module.exports = { getUsers, createUser, getUserFromMail }
+const getUsersFromGroupId = async (id) => {
+  return Users.findAll({
+    where: {
+      groupId: id
+    }
+  })
+}
+
+module.exports = { getUsers, createUser, getUserFromMail, getUsersFromGroupId }
