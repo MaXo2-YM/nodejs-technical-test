@@ -4,12 +4,7 @@ const Users = require('../models/users')
 const { getUserFromMail } = require('./users')
 
 const login = async (req,res) => {
-  let data = ''
-  req.on('data', chunk => {
-    data += chunk
-  })
-  req.on('end', async () => {
-    data = JSON.parse(data)
+    data = req.body
     const user = await getUserFromMail(data.email)
     if(user && user.password === data.password){
       let token = jwt.sign({
@@ -19,13 +14,11 @@ const login = async (req,res) => {
           expiresIn: 300 //5 minutes
       })
 
-      res.writeHead(200, { 'Content-Type': 'application/json' })
-      res.end('{"data": { "authJWT" : "'+ token +'"}}')
+      res.status(200).json({'data': {'authJWT': token}})
     } else {
-      res.writeHead(401, { 'Content-Type': 'application/json' })
-      res.end('{"error": "wrong email/password couple"}')
+      res.status(401).json({'error': "Wrong email/password couple"})
     }
-  })
+
 }
 
 module.exports = login

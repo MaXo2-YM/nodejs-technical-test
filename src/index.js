@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
-const { createUser } = require('./controllers/users');
+const login = require('./controllers/login')
+const { createUser } = require('./controllers/users')
 
 const PORT = process.env.PORT || 8080;
 
@@ -9,6 +10,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.post('/subscribe', (req,res) => {
   createUser(req,res)
+})
+
+app.post('/login', (req,res) => {
+  login(req,res)
 })
 
 app.listen(PORT, () => {
