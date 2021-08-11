@@ -174,7 +174,7 @@ describe('NodeJS Tests', () => {
     test('Should invite user to our group', async () => {
       const res = await chai
         .request(server)
-        .get('/groups/1/invite')
+        .post('/groups/1/invite')
         .auth(authJWT, { type: 'bearer' })
         .send({ email: 'frient@test.com' })
 
