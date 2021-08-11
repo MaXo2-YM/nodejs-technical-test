@@ -4,14 +4,11 @@ const verifyToken = require('../authJWT')
 const { getUserFromMail } = require('./users')
 
 const getGroups = async (req,res) => {
-  if(verifyToken(req)) {
-    const groups = await Groups.findAll()
-    res.writeHead(200, { 'Content-Type': 'application/json' })
-    res.end('{"data": { "groups": '+ JSON.stringify(groups) +'}}')
-  } else {
-    res.writeHead(401, { 'Content-Type': 'application/json' })
-    res.end('{"error": "Unhautorized"}')
-  }
+  let groups = await Groups.findAll()
+  groups = groups.map((group) => {
+    return {'name': group.name}
+  })
+  res.status(200).json({'data': { 'groups': groups}})
 }
 
 const createGroup = async (req, res) => {

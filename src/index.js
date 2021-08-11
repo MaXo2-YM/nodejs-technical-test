@@ -1,5 +1,6 @@
 const express = require('express');
 const verifyToken = require('./authJWT');
+const { getGroups } = require('./controllers/groups');
 const app = express()
 const login = require('./controllers/login')
 const { createUser, getUsers } = require('./controllers/users')
@@ -19,6 +20,10 @@ app.post('/login', (req,res) => {
 
 app.get('/users', verifyToken, (req,res) => {
   getUsers(req,res)
+})
+
+app.get('/groups', verifyToken, (req,res) => {
+  getGroups(req,res)
 })
 
 app.listen(PORT, () => {
