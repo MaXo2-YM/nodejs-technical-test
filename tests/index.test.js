@@ -162,7 +162,7 @@ describe('NodeJS Tests', () => {
     test('Should fail because not logged in (401)', async () => {
       const res = await chai
         .request(server)
-        .post('/groups')
+        .post('/groups/1/invite')
         .send({ email: 'friend@test.com' })
 
       expect(res.status).toEqual(401)
