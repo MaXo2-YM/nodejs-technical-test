@@ -52,7 +52,7 @@ const getUsers = async (req,res) => {
 }
 
 const getUserFromMail = async (mail) => {
-  return await Users.findOne({
+  return Users.findOne({
     where: {
       email: mail
     }

@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
 const {secret} = require('../config')
 const Users = require('../models/users')
+const { getUserFromMail } = require('./users')
 
 const login = async (req,res) => {
   let data = ''
@@ -9,11 +10,7 @@ const login = async (req,res) => {
   })
   req.on('end', async () => {
     data = JSON.parse(data)
-    const user = await Users.findOne({
-      where: {
-        email: data.email
-      }
-    })
+    const user = await getUserFromMail(data.email)
     if(user && user.password === data.password){
       let token = jwt.sign({
         key: user.email
