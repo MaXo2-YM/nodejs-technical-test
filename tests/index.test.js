@@ -139,7 +139,7 @@ describe('NodeJS Tests', () => {
       expect(res.body.error).toBeDefined()
     })
 
-    test.skip('Should create a new group and return it with current user in it (200)', async () => {
+    test('Should create a new group and return it with current user in it (200)', async () => {
       const res = await chai
         .request(server)
         .post('/groups')
