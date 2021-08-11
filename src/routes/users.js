@@ -1,4 +1,4 @@
-const getUsers = require('../controllers/users')
+const {getUsers} = require('../controllers/users')
 
 const routeToUsers = async (req,res) => {
   switch(req.method) {

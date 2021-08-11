@@ -1,9 +1,9 @@
-const postLogin = require('../controllers/login')
+const login = require('../controllers/login')
 
 const routesToLogin = async (req,res) => {
   switch(req.method) {
     case 'POST':
-      postLogin(req,res)
+      login(req,res)
     break;
     default:
       res.writeHead(404, { 'Content-Type': 'application/json' })

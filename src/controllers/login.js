@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 const {secret} = require('../config')
 const Users = require('../models/users')
 
-postLogin = async (req,res) => {
+const login = async (req,res) => {
   let data = ''
   req.on('data', chunk => {
     data += chunk
@@ -31,4 +31,4 @@ postLogin = async (req,res) => {
   })
 }
 
-module.exports = postLogin
+module.exports = login

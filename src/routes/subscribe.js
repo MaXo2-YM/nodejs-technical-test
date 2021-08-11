@@ -1,9 +1,9 @@
-const postSubscribe = require('../controllers/subscribe')
+const {createUser} = require('../controllers/users')
 
 const routesToSubscribe = async (req,res) => {
   switch(req.method) {
     case 'POST':
-      postSubscribe(req,res)
+      createUser(req,res)
     break;
     default:
       res.writeHead(404, { 'Content-Type': 'application/json' })
