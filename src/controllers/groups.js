@@ -1,6 +1,7 @@
 const Groups = require('../models/groups')
 const Users = require('../models/users')
 const verifyToken = require('../authJWT')
+const { getUserFromMail } = require('./users')
 
 const getGroups = async (req,res) => {
   if(verifyToken(req)) {
@@ -21,11 +22,7 @@ const createGroup = async (req, res) => {
     })
     req.on('end', async () => {
       try {
-      const user = await Users.findOne({
-        where: {
-          email: req.key
-        }
-      })
+      const user = await getUserFromMail(req.key)
       const group = await Groups.create({
         ...JSON.parse(data)
       })

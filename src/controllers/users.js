@@ -51,4 +51,12 @@ const getUsers = async (req,res) => {
   }
 }
 
-module.exports = { getUsers, createUser }
+const getUserFromMail = async (mail) => {
+  return await Users.findOne({
+    where: {
+      email: mail
+    }
+  })
+}
+
+module.exports = { getUsers, createUser, getUserFromMail }
