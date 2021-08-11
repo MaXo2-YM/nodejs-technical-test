@@ -9,16 +9,15 @@ const createUser = async (req,res) => {
   })
   req.on('end', async () => {
     try {
-    const user = await Users.create({
-      ...JSON.parse(data)
-    })
-    
-    const {email, firstName, lastName, ...rest} = user.dataValues
-    const returnValues = {email, firstName, lastName}
-    
-    res.writeHead(200, { 'Content-Type': 'application/json' })
-    res.end('{"data": '+ JSON.stringify(returnValues) +'}')
-  
+      const user = await Users.create({
+        ...JSON.parse(data)
+      })
+      
+      const {email, firstName, lastName, ...rest} = user.dataValues
+      const returnValues = {email, firstName, lastName}
+      
+      res.writeHead(200, { 'Content-Type': 'application/json' })
+      res.end('{"data": '+ JSON.stringify(returnValues) +'}')
     } catch (error) {
       res.writeHead(400, { 'Content-Type': 'application/json' })
       res.end('{"error": ' + JSON.stringify(error) + '}')
@@ -59,4 +58,12 @@ const getUserFromMail = async (mail) => {
   })
 }
 
-module.exports = { getUsers, createUser, getUserFromMail }
+const getUsersFromGroupId = async (id) => {
+  return Users.findAll({
+    where: {
+      groupId: id
+    }
+  })
+}
+
+module.exports = { getUsers, createUser, getUserFromMail, getUsersFromGroupId}

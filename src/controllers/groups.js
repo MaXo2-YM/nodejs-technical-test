@@ -1,7 +1,7 @@
 const Groups = require('../models/groups')
 const Users = require('../models/users')
 const verifyToken = require('../authJWT')
-const { getUserFromMail } = require('./users')
+const { getUserFromMail, getUsersFromGroupId } = require('./users')
 
 const getGroups = async (req,res) => {
   if(verifyToken(req)) {
@@ -28,16 +28,23 @@ const createGroup = async (req, res) => {
       })
       user.groupId = group.id //must be a cleaner way to do this
       await user.save()
+
+      let users = await getUsersFromGroupId(group.id)
+      users = users.map((user) => {
+        return {
+          'email': user.email,
+          'firstName': user.firstName,
+          'lastName': user.lastName
+        }
+      })
       
-      const {email, firstName, lastName, ...rest} = user.dataValues
       const {name, ...still} = group.dataValues
-      const returnValues = {name, 'users': [{email, firstName, lastName}]}
+      const returnValues = {name, 'users': users}
       
       res.writeHead(200, { 'Content-Type': 'application/json' })
       res.end('{"data":  { "groups": ['+ JSON.stringify(returnValues) +']}}')
     
       } catch (error) {
-        console.error(error);
         res.writeHead(400, { 'Content-Type': 'application/json' })
         res.end('{"error": ' + JSON.stringify(error) + '}')
       }
@@ -48,7 +55,7 @@ const createGroup = async (req, res) => {
   }
 }
 
-const inviteToGroup = (req,res) => {
+const inviteToGroup = async (req,res) => {
   if(verifyToken(req)) {
     let data = ''
     req.on('data', chunk => {
@@ -62,11 +69,7 @@ const inviteToGroup = (req,res) => {
         userGuest.groupId = group.id
         await userGuest.save()
 
-        let users = await Users.findAll({
-          where: {
-            groupId: group.id
-          }
-        })
+        let users = await getUsersFromGroupId(group.id)
 
         users = users.map((user) => {
           return {
@@ -82,7 +85,6 @@ const inviteToGroup = (req,res) => {
         res.writeHead(200, { 'Content-Type': 'application/json' })
         res.end('{"data":  { "groups": ['+ JSON.stringify(returnValues) +']}}')
       } catch (error) {
-        console.error(error);
         res.writeHead(400, { 'Content-Type': 'application/json' })
         res.end('{"error": ' + JSON.stringify(error) + '}')
       }
