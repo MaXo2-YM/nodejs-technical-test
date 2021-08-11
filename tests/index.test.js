@@ -183,7 +183,7 @@ describe('NodeJS Tests', () => {
 
       expect(res.status).toEqual(200)
       expect(res.body.data).toBeDefined()
-      expect(res.body.data.groups.length).toEqual(2)
+      expect(res.body.data.groups[0].users.length).toEqual(2)
       expect(res.body.data.groups[0]).toMatchObject({
         name: 'My Awesome Group',
         users: [
