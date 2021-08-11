@@ -139,7 +139,7 @@ describe('NodeJS Tests', () => {
     test('Should create a new group and return it with current user in it (200)', async () => {
       const res = await chai
         .request(server)
-        .get('/groups')
+        .post('/groups')
         .auth(authJWT, { type: 'bearer' })
         .send({ name: 'My Awesome Group' })
 
@@ -198,5 +198,4 @@ describe('NodeJS Tests', () => {
       })
     })
   })
-  Users.destroy({ truncate : true, cascade: false }) //## This is to use on a test database to get fresh after each test
 })
