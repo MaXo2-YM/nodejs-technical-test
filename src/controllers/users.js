@@ -19,27 +19,21 @@ const createUser = async (req,res) => {
 }
 
 const getUsers = async (req,res) => {
-  if(verifyToken(req)) {
-    const users = await Users.findAll({
-      where: {
-        email: {
-          [Op.notLike] : req.key
-        }
+  let users = await Users.findAll({
+    where: {
+      email: {
+        [Op.notLike] : req.key
       }
-    })
-    const strippedUsers = users.map((user) => {
-      return {
-        email: user.getDataValue('email'),
-        firstName: user.getDataValue('firstName'),
-        lastName: user.getDataValue('lastName'),
-      }
-    })
-    res.writeHead(200, { 'Content-Type': 'application/json' })
-    res.end('{"data": { "users": '+ JSON.stringify(strippedUsers) +'}}')
-  } else {
-      res.writeHead(401, { 'Content-Type': 'application/json' })
-      res.end('{"error": "Unhautorized"}')
-  }
+    }
+  })
+  users = users.map((user) => {
+    return {
+      email: user.getDataValue('email'),
+      firstName: user.getDataValue('firstName'),
+      lastName: user.getDataValue('lastName'),
+    }
+  })
+  res.status(200).json({'data': {'users': users}})
 }
 
 const getUserFromMail = async (mail) => {

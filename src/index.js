@@ -1,7 +1,8 @@
-const express = require('express')
+const express = require('express');
+const verifyToken = require('./authJWT');
 const app = express()
 const login = require('./controllers/login')
-const { createUser } = require('./controllers/users')
+const { createUser, getUsers } = require('./controllers/users')
 
 const PORT = process.env.PORT || 8080;
 
@@ -14,6 +15,10 @@ app.post('/subscribe', (req,res) => {
 
 app.post('/login', (req,res) => {
   login(req,res)
+})
+
+app.get('/users', verifyToken, (req,res) => {
+  getUsers(req,res)
 })
 
 app.listen(PORT, () => {

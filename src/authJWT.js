@@ -1,17 +1,18 @@
 const jwt = require('jsonwebtoken')
 const {secret} = require('./config.js')
 
-const verifyToken = (req) => {
+const verifyToken = (req, res, next) => {
     let token = req.headers['authorization']
     if (!token) {
-      return false
+      res.status(401).json({'error': "Unauthorized"})
     }
-    return jwt.verify(token.substring(7), secret, (error, decoded) => {
+    token = token.split(' ')[1]
+    return jwt.verify(token, secret, (error, decoded) => {
         if (error) {
-          return false
+          res.status(403).json({'error': "Forbidden"})
         }
         req.key = decoded.key
-        return true
+        next();
     })
 }
 
